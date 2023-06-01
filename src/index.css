@@ -7,6 +7,11 @@
   height: 100vh;
   object-fit: cover;
 }
+.loginimg {
+  width: 100%;
+  height: 100vh;
+  object-fit: cover;
+}
 .header {
   color: #11175d;
   font-family: "Nunito", sans-serif;
@@ -15,7 +20,7 @@
 }
 .regContainer {
   margin-left: auto;
-  width: 50%;
+  width: 75%;
   margin-top: 50%;
   transform: translateY(-50%);
 }
@@ -31,5 +36,34 @@
   margin-bottom: 20px;
 }
 .reginput .MuiTextField-root {
-  width: 80%;
+  width: 65%;
+}
+.googlepic {
+  margin-top: 29px;
+}
+
+.loginput {
+  margin-top: 30px;
+  margin-bottom: 55px;
+}
+.loginput .MuiTextField-root {
+  width: 65%;
+}
+.loginbtn .css-sghohy-MuiButtonBase-root-MuiButton-root {
+  width: 65%;
+  padding: 18px 50px !important;
+  border-radius: 8px !important;
+  background-color: #5f34f5 !important;
+}
+.loginbtn .css-sghohy-MuiButtonBase-root-MuiButton-root:hover {
+  background-color: #11175d !important;
+}
+.regibtn .css-sghohy-MuiButtonBase-root-MuiButton-root {
+  width: 65%;
+  padding: 19px 50px !important;
+  border-radius: 86px !important;
+  background-color: #5f34f5 !important;
+}
+.regibtn .css-sghohy-MuiButtonBase-root-MuiButton-root:hover {
+  background-color: #11175d !important;
 }

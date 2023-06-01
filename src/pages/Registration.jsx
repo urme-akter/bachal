@@ -29,9 +29,12 @@ const Registration = () => {
                 id="outlined-basic"
                 label="password"
                 variant="outlined"
+                type="password"
               />
             </div>
-            <Button variant="contained">Sign up</Button>
+            <div className="regibtn">
+              <Button variant="contained">Sign up</Button>
+            </div>
           </div>
         </Grid>
         <Grid item xs={6}>

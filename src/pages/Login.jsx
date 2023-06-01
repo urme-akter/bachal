@@ -1,7 +1,8 @@
 import React from "react";
 import { Grid, TextField, Button } from "@mui/material";
-import regimg from "../assets/regimg.png";
+import loginimg from "../assets/loginimg.png";
 import Heading from "../components/Heading";
+import googleimg from "../assets/googleimg.png";
 
 const Login = () => {
   return (
@@ -11,22 +12,31 @@ const Login = () => {
           <div className="regContainer">
             <Heading className="header" tittle="Login to your account!" />
 
-            <div className="reginput">
-              <TextField id="outlined-basic" label="Email" variant="outlined" />
-            </div>
+            <img className="googlepic" src={googleimg} />
 
-            <div className="reginput">
+            <div className="loginput">
               <TextField
-                id="outlined-basic"
-                label="password"
-                variant="outlined"
+                id="standard-basic"
+                label="Email Address"
+                variant="standard"
               />
             </div>
-            <Button variant="contained">Sign up</Button>
+
+            <div className="loginput">
+              <TextField
+                id="standard-basic"
+                label="Password"
+                variant="standard"
+                type="password"
+              />
+            </div>
+            <div className="loginbtn">
+              <Button variant="contained">Login to Continue</Button>
+            </div>
           </div>
         </Grid>
         <Grid item xs={6}>
-          <img className="regisimg" src={regimg} />
+          <img className="loginimg" src={loginimg} />
         </Grid>
       </Grid>
     </>
