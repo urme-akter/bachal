@@ -40,6 +40,7 @@
 }
 .googlepic {
   margin-top: 29px;
+  cursor: pointer;
 }
 
 .loginput {
@@ -66,4 +67,11 @@
 }
 .regibtn .css-sghohy-MuiButtonBase-root-MuiButton-root:hover {
   background-color: #11175d !important;
+}
+.loader {
+  margin-top: 30px;
+  margin-left: 150px;
+}
+.css-1fuz9qr-MuiPaper-root-MuiAlert-root {
+  width: 60%;
 }

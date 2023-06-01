@@ -1,9 +1,63 @@
-import React from "react";
-import { Grid, TextField, Button } from "@mui/material";
+import React, { useState } from "react";
+import {
+  Grid,
+  TextField,
+  Button,
+  CircularProgress,
+  Alert,
+} from "@mui/material";
 import regimg from "../assets/regimg.png";
 import Heading from "../components/Heading";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+} from "firebase/auth";
+import { useNavigate, Link } from "react-router-dom";
+
+let initialvalues = {
+  email: "",
+  fullName: "",
+  password: "",
+  CircularProgress: false,
+};
 
 const Registration = () => {
+  const auth = getAuth();
+  let navigate = useNavigate();
+
+  let [values, setValues] = useState(initialvalues);
+  let handleValues = (e) => {
+    setValues({
+      ...values,
+      [e.target.name]: e.target.value,
+    });
+    // console.log(values);
+  };
+
+  let handleSubmit = () => {
+    let { email, fullName, password } = values;
+    setValues({
+      ...values,
+      CircularProgress: true,
+    });
+
+    createUserWithEmailAndPassword(auth, email, password).then((user) => {
+      // console.log(user);
+      sendEmailVerification(auth.currentUser).then(() => {
+        // console.log("email send");
+      });
+      setValues({
+        email: "",
+        fullName: "",
+        password: "",
+        CircularProgress: false,
+      });
+
+      navigate("/login");
+    });
+  };
+
   return (
     <>
       <Grid container spacing={2}>
@@ -15,10 +69,20 @@ const Registration = () => {
             />
             <p className="para">Free register and you can enjoy it</p>
             <div className="reginput">
-              <TextField id="outlined-basic" label="Email" variant="outlined" />
+              <TextField
+                value={values.email}
+                onChange={handleValues}
+                name="email"
+                id="outlined-basic"
+                label="Email"
+                variant="outlined"
+              />
             </div>
             <div className="reginput">
               <TextField
+                value={values.fullName}
+                onChange={handleValues}
+                name="fullName"
                 id="outlined-basic"
                 label="FullName"
                 variant="outlined"
@@ -26,14 +90,31 @@ const Registration = () => {
             </div>
             <div className="reginput">
               <TextField
+                value={values.password}
+                onChange={handleValues}
+                name="password"
                 id="outlined-basic"
-                label="password"
+                label="Password"
                 variant="outlined"
                 type="password"
               />
             </div>
+            <Alert severity="info" style={{ marginBottom: "20px" }}>
+              Already Have an Account?{" "}
+              <strong>
+                <Link to="/login">Login</Link>
+              </strong>
+            </Alert>
             <div className="regibtn">
-              <Button variant="contained">Sign up</Button>
+              {values.CircularProgress ? (
+                <div className="loader">
+                  <CircularProgress disableShrink />
+                </div>
+              ) : (
+                <Button onClick={handleSubmit} variant="contained">
+                  Sign up
+                </Button>
+              )}
             </div>
           </div>
         </Grid>
