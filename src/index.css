@@ -34,6 +34,7 @@
 .reginput {
   margin-top: 20px;
   margin-bottom: 20px;
+  position: relative;
 }
 .reginput .MuiTextField-root {
   width: 65%;
@@ -74,4 +75,14 @@
 }
 .css-1fuz9qr-MuiPaper-root-MuiAlert-root {
   width: 60%;
+}
+
+.css-1hdyuqk-MuiPaper-root-MuiAlert-root {
+  margin-top: 10px;
+  width: 59%;
+}
+.eye {
+  position: absolute;
+  top: 17px;
+  right: 207px;
 }

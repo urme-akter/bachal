@@ -14,12 +14,15 @@ import {
   sendEmailVerification,
 } from "firebase/auth";
 import { useNavigate, Link } from "react-router-dom";
+import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
 
 let initialvalues = {
   email: "",
   fullName: "",
   password: "",
   CircularProgress: false,
+  error: "",
+  eye: "",
 };
 
 const Registration = () => {
@@ -37,6 +40,30 @@ const Registration = () => {
 
   let handleSubmit = () => {
     let { email, fullName, password } = values;
+    if (!email) {
+      setValues({
+        ...values,
+        error: "Enter an Email Address",
+      });
+      return;
+    }
+
+    if (!fullName) {
+      setValues({
+        ...values,
+        error: "Enter an fullName",
+      });
+      return;
+    }
+
+    if (!password) {
+      setValues({
+        ...values,
+        error: "Enter an password",
+      });
+      return;
+    }
+
     setValues({
       ...values,
       CircularProgress: true,
@@ -77,6 +104,9 @@ const Registration = () => {
                 label="Email"
                 variant="outlined"
               />
+              {values.error.includes("email") && (
+                <Alert severity="error">{values.error}</Alert>
+              )}
             </div>
             <div className="reginput">
               <TextField
@@ -87,6 +117,9 @@ const Registration = () => {
                 label="FullName"
                 variant="outlined"
               />
+              {values.error.includes("fullName") && (
+                <Alert severity="error">{values.error}</Alert>
+              )}
             </div>
             <div className="reginput">
               <TextField
@@ -96,8 +129,17 @@ const Registration = () => {
                 id="outlined-basic"
                 label="Password"
                 variant="outlined"
-                type="password"
+                type={values.eye ? "text" : "password"}
               />
+              <div
+                onClick={() => setValues({ ...values, eye: !values.eye })}
+                className="eye"
+              >
+                {values.eye ? <BsEyeFill /> : <BsEyeSlashFill />}
+              </div>
+              {values.error.includes("password") && (
+                <Alert severity="error">{values.error}</Alert>
+              )}
             </div>
             <Alert severity="info" style={{ marginBottom: "20px" }}>
               Already Have an Account?{" "}
