@@ -43,7 +43,7 @@ const Registration = () => {
     if (!email) {
       setValues({
         ...values,
-        error: "Enter an Email Address",
+        error: "Enter an email Address",
       });
       return;
     }
