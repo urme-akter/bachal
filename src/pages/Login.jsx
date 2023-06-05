@@ -15,16 +15,20 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
 } from "firebase/auth";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
 
 let initialvalues = {
   email: "",
   password: "",
   CircularProgress: false,
+  error: "",
+  eyeTwo: "",
 };
 
 const Login = () => {
   const auth = getAuth();
+  let Navigate = useNavigate();
   const provider = new GoogleAuthProvider();
   let [values, setValues] = useState(initialvalues);
   let handleValues = (e) => {
@@ -36,7 +40,22 @@ const Login = () => {
   };
 
   let handleSubmit = () => {
-    let { email, fullName, password } = values;
+    let { email, password } = values;
+
+    if (!email) {
+      setValues({
+        ...values,
+        error: "Enter an email Address",
+      });
+      return;
+    }
+    if (!password) {
+      setValues({
+        ...values,
+        error: "Enter an password",
+      });
+      return;
+    }
     setValues({
       ...values,
       CircularProgress: true,
@@ -48,7 +67,8 @@ const Login = () => {
         password: "",
         CircularProgress: false,
       });
-      console.log(user);
+      // console.log(user);
+      Navigate("/home");
     });
   };
 
@@ -80,6 +100,9 @@ const Login = () => {
                 label="Email Address"
                 variant="standard"
               />
+              {values.error.includes("email") && (
+                <Alert severity="error">{values.error}</Alert>
+              )}
             </div>
 
             <div className="loginput">
@@ -90,9 +113,19 @@ const Login = () => {
                 id="standard-basic"
                 label="Password"
                 variant="standard"
-                type="password"
+                type={values.eyeTwo ? "text" : "password"}
               />
+              {values.error.includes("password") && (
+                <Alert severity="error">{values.error}</Alert>
+              )}
+              <div
+                onClick={() => setValues({ ...values, eyeTwo: !values.eyeTwo })}
+                className="eyeTwo"
+              >
+                {values.eyeTwo ? <BsEyeFill /> : <BsEyeSlashFill />}
+              </div>
             </div>
+
             <Alert severity="info" style={{ marginBottom: "20px" }}>
               Don't Have an Account?
               <strong>

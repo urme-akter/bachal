@@ -50,6 +50,7 @@
 }
 .loginput .MuiTextField-root {
   width: 65%;
+  position: relative;
 }
 .loginbtn .css-sghohy-MuiButtonBase-root-MuiButton-root {
   width: 65%;
@@ -85,4 +86,9 @@
   position: absolute;
   top: 17px;
   right: 207px;
+}
+.eyeTwo {
+  position: absolute;
+  right: 206px;
+  bottom: 187px;
 }
