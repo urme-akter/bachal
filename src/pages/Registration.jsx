@@ -157,6 +157,12 @@ const Registration = () => {
                   Sign up
                 </Button>
               )}
+              <Alert severity="error" style={{ marginTop: "40px" }}>
+                Forgot Password?{" "}
+                <strong>
+                  <Link to="/ForgotPassword">Click Here</Link>
+                </strong>
+              </Alert>
             </div>
           </div>
         </Grid>

@@ -90,5 +90,23 @@
 .eyeTwo {
   position: absolute;
   right: 206px;
-  bottom: 187px;
+  top: 299px;
+}
+.forgotPassword {
+  background-color: #11175d;
+  height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.forgotPassword .box {
+  background-color: #fff;
+  padding: 40px 50px;
+  border-radius: 20px;
+}
+.forgotPassword .box .css-1u3bzj6-MuiFormControl-root-MuiTextField-root {
+  width: 100%;
+  margin-top: 20px;
+  margin-bottom: 30px;
 }

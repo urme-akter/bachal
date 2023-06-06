@@ -24,6 +24,7 @@ let initialvalues = {
   CircularProgress: false,
   error: "",
   eyeTwo: "",
+  errorCode: "",
 };
 
 const Login = () => {
@@ -40,7 +41,7 @@ const Login = () => {
   };
 
   let handleSubmit = () => {
-    let { email, password } = values;
+    let { email, password, errorCode } = values;
 
     if (!email) {
       setValues({
@@ -56,20 +57,49 @@ const Login = () => {
       });
       return;
     }
+    if (!errorCode) {
+      setValues({
+        ...values,
+        email: "",
+
+        error: "Enter an right email",
+      });
+      return;
+    }
+    if (!errorCode) {
+      setValues({
+        ...values,
+
+        password: "",
+        error: "Enter an Right Password",
+      });
+      return;
+    }
     setValues({
       ...values,
       CircularProgress: true,
     });
 
-    signInWithEmailAndPassword(auth, email, password).then((user) => {
-      setValues({
-        email: "",
-        password: "",
-        CircularProgress: false,
+    signInWithEmailAndPassword(auth, email, password)
+      .then((user) => {
+        setValues({
+          password: "",
+          CircularProgress: false,
+        });
+        // console.log(user);
+        Navigate("/home");
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode);
+        setValues({
+          ...values,
+          email: "",
+          password: "",
+          CircularProgress: false,
+        });
       });
-      // console.log(user);
-      Navigate("/home");
-    });
   };
 
   let handlegooglelogin = () => {
@@ -103,6 +133,9 @@ const Login = () => {
               {values.error.includes("email") && (
                 <Alert severity="error">{values.error}</Alert>
               )}
+              {values.error.includes("errorCode") && (
+                <Alert severity="error">{values.error}</Alert>
+              )}
             </div>
 
             <div className="loginput">
@@ -116,6 +149,9 @@ const Login = () => {
                 type={values.eyeTwo ? "text" : "password"}
               />
               {values.error.includes("password") && (
+                <Alert severity="error">{values.error}</Alert>
+              )}
+              {values.error.includes("errorCode") && (
                 <Alert severity="error">{values.error}</Alert>
               )}
               <div
