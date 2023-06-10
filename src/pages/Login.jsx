@@ -24,7 +24,6 @@ let initialvalues = {
   CircularProgress: false,
   error: "",
   eyeTwo: "",
-  errorCode: "",
 };
 
 const Login = () => {
@@ -32,6 +31,7 @@ const Login = () => {
   let Navigate = useNavigate();
   const provider = new GoogleAuthProvider();
   let [values, setValues] = useState(initialvalues);
+  let [error, setError] = useState("");
   let handleValues = (e) => {
     setValues({
       ...values,
@@ -41,7 +41,7 @@ const Login = () => {
   };
 
   let handleSubmit = () => {
-    let { email, password, errorCode } = values;
+    let { email, password } = values;
 
     if (!email) {
       setValues({
@@ -57,24 +57,7 @@ const Login = () => {
       });
       return;
     }
-    if (!errorCode) {
-      setValues({
-        ...values,
-        email: "",
 
-        error: "Enter an right email",
-      });
-      return;
-    }
-    if (!errorCode) {
-      setValues({
-        ...values,
-
-        password: "",
-        error: "Enter an Right Password",
-      });
-      return;
-    }
     setValues({
       ...values,
       CircularProgress: true,
@@ -93,6 +76,20 @@ const Login = () => {
         const errorCode = error.code;
         const errorMessage = error.message;
         console.log(errorCode);
+        setError(errorCode);
+
+        if (errorCode === "auth/wrong-password") {
+          setValues({
+            password: "",
+          });
+        }
+        if (errorCode === "auth/user-not-found") {
+          setValues({
+            email: "",
+            password: "",
+          });
+        }
+
         setValues({
           ...values,
           email: "",
@@ -133,10 +130,10 @@ const Login = () => {
               {values.error.includes("email") && (
                 <Alert severity="error">{values.error}</Alert>
               )}
-              {values.error.includes("errorCode") && (
-                <Alert severity="error">{values.error}</Alert>
-              )}
             </div>
+            {error === "auth/user-not-found" && (
+              <Alert severity="error"> Invalid Email</Alert>
+            )}
 
             <div className="loginput">
               <TextField
@@ -151,9 +148,7 @@ const Login = () => {
               {values.error.includes("password") && (
                 <Alert severity="error">{values.error}</Alert>
               )}
-              {values.error.includes("errorCode") && (
-                <Alert severity="error">{values.error}</Alert>
-              )}
+
               <div
                 onClick={() => setValues({ ...values, eyeTwo: !values.eyeTwo })}
                 className="eyeTwo"
@@ -161,6 +156,9 @@ const Login = () => {
                 {values.eyeTwo ? <BsEyeFill /> : <BsEyeSlashFill />}
               </div>
             </div>
+            {error === "auth/wrong-password" && (
+              <Alert severity="error">Invalid Password</Alert>
+            )}
 
             <Alert severity="info" style={{ marginBottom: "20px" }}>
               Don't Have an Account?

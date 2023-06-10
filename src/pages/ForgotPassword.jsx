@@ -5,12 +5,10 @@ import { useNavigate } from "react-router-dom";
 
 const ForgotPassword = () => {
   const auth = getAuth();
-
-  let navigate = useNavigate();
-
   let [text, setText] = useState("");
-
+  let navigate = useNavigate();
   let handleForgotPassword = () => {
+    console.log(text);
     sendPasswordResetEmail(auth, text)
       .then(() => {
         navigate("/login");
@@ -18,7 +16,6 @@ const ForgotPassword = () => {
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        // ..
       });
   };
   return (
