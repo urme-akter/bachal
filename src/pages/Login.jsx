@@ -17,6 +17,7 @@ import {
 } from "firebase/auth";
 import { Link, useNavigate } from "react-router-dom";
 import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
+import { toast } from "react-toastify";
 
 let initialvalues = {
   email: "",
@@ -27,6 +28,7 @@ let initialvalues = {
 };
 
 const Login = () => {
+  const notify = (msg) => toast(msg);
   const auth = getAuth();
   let Navigate = useNavigate();
   const provider = new GoogleAuthProvider();
@@ -50,6 +52,7 @@ const Login = () => {
       });
       return;
     }
+    // var pattern = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
     if (!password) {
       setValues({
         ...values,
@@ -69,13 +72,19 @@ const Login = () => {
           password: "",
           CircularProgress: false,
         });
-        // console.log(user);
-        Navigate("/home");
+        console.log(user.user.emailVerified);
+        if (!user.user.emailVerified) {
+          notify("Please verify your email for login");
+        } else {
+          Navigate("/home");
+        }
+        console.log(user);
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
         console.log(errorCode);
+        notify(errorCode);
         setError(errorCode);
 
         if (errorCode === "auth/wrong-password") {
@@ -92,7 +101,7 @@ const Login = () => {
 
         setValues({
           ...values,
-          email: "",
+          // email: "",
           password: "",
           CircularProgress: false,
         });
@@ -172,9 +181,11 @@ const Login = () => {
                   <CircularProgress disableShrink />
                 </div>
               ) : (
-                <Button onClick={handleSubmit} variant="contained">
-                  Login to Continue
-                </Button>
+                <>
+                  <Button onClick={handleSubmit} variant="contained">
+                    Login to Continue
+                  </Button>
+                </>
               )}
             </div>
           </div>

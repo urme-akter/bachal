@@ -55,11 +55,11 @@ const Registration = () => {
       });
       return;
     }
-
+    // var pattern = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
     if (!password) {
       setValues({
         ...values,
-        error: "Enter an password",
+        error: "Enter an password with Capital-case,Lower-case & Symbole",
       });
       return;
     }
