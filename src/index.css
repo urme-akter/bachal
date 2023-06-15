@@ -2,6 +2,11 @@
   margin: 0;
   padding: 0;
 }
+
+ul,
+ol {
+  list-style: none;
+}
 .regisimg {
   width: 100%;
   height: 100vh;
@@ -109,4 +114,97 @@
   width: 100%;
   margin-top: 20px;
   margin-bottom: 30px;
+}
+.navber {
+  width: 100%;
+  height: 100vh;
+}
+.navcontainer {
+  height: 100vh;
+  background-color: #5f35f5;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.profilePic {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+}
+.navcontainer .icon {
+  color: #fff;
+  font-size: 30px;
+  margin: 35px 0;
+  display: inline-block;
+}
+.navcontainer .active {
+  color: #5f35f5;
+  font-size: 30px;
+  margin: 35px 0;
+  display: inline-block;
+  position: relative;
+  z-index: 2;
+}
+.navcontainer .active::after {
+  position: absolute;
+  top: -13px;
+  left: -3px;
+  background-color: #fff;
+  width: 250%;
+  height: 150%;
+  content: "";
+  z-index: -1;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+.navcontainer .active::before {
+  position: absolute;
+  top: -13px;
+  right: -42px;
+  background-color: #5f35f5;
+  width: 9px;
+  height: 57px;
+  content: "";
+  border-top-left-radius: 7px;
+  border-bottom-left-radius: 7px;
+}
+.groupBox {
+  width: 100%;
+  height: 250px;
+  background-color: #fff;
+  border-radius: 10px;
+  -webkit-box-shadow: 0px 3px 20px -12px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 3px 20px -12px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 3px 20px -12px rgba(0, 0, 0, 0.75);
+  box-sizing: border-box;
+  padding: 15px;
+  overflow-y: scroll;
+  position: relative;
+  margin-bottom: 30px;
+}
+.groupBox .tittle {
+  position: sticky;
+  top: 0;
+  left: 0;
+  background-color: #fff;
+  display: flex;
+  justify-content: space-between;
+}
+
+.groupBox .list {
+  display: flex;
+  column-gap: 50px;
+  margin-top: 20px;
+  border-bottom: 1px solid black;
+  padding-bottom: 10px;
+}
+.groupBox .list:last-child {
+  border-bottom: none;
+}
+.groupBox .pic {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
 }

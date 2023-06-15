@@ -12,7 +12,9 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   sendEmailVerification,
+  updateProfile,
 } from "firebase/auth";
+import { getDatabase, ref, set, push } from "firebase/database";
 import { useNavigate, Link } from "react-router-dom";
 import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
 
@@ -27,6 +29,7 @@ let initialvalues = {
 
 const Registration = () => {
   const auth = getAuth();
+  const db = getDatabase();
   let navigate = useNavigate();
 
   let [values, setValues] = useState(initialvalues);
@@ -71,9 +74,22 @@ const Registration = () => {
 
     createUserWithEmailAndPassword(auth, email, password).then((user) => {
       // console.log(user);
-      sendEmailVerification(auth.currentUser).then(() => {
-        // console.log("email send");
+
+      updateProfile(auth.currentUser, {
+        displayName: values.fullName,
+        photoURL: "https://i.ibb.co/LJ3H9dg/fAvater.jpg",
+      }).then(() => {
+        sendEmailVerification(auth.currentUser).then(() => {
+          console.log("email send");
+          console.log(user);
+          set(ref(db, "users/" + user.user.uid), {
+            username: values.fullName,
+            email: values.email,
+            profile_picture: user.user.photoURL,
+          });
+        });
       });
+
       setValues({
         email: "",
         fullName: "",

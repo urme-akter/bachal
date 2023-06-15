@@ -76,7 +76,7 @@ const Login = () => {
         if (!user.user.emailVerified) {
           notify("Please verify your email for login");
         } else {
-          Navigate("/home");
+          Navigate("/bachal/home");
         }
         console.log(user);
       })
