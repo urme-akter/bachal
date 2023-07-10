@@ -40,9 +40,9 @@ const Home = () => {
         </Grid>
       </Grid>
 
-      {/* <Button onClick={handleLogOut} variant="contained">
+      <Button onClick={handleLogOut} variant="contained">
         Log out
-      </Button> */}
+      </Button>
     </>
   );
 };

@@ -18,6 +18,8 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { userData } from "../slices/user/userSlice";
 
 let initialvalues = {
   email: "",
@@ -28,6 +30,7 @@ let initialvalues = {
 };
 
 const Login = () => {
+  let dispatch = useDispatch();
   const notify = (msg) => toast(msg);
   const auth = getAuth();
   let Navigate = useNavigate();
@@ -77,6 +80,7 @@ const Login = () => {
           notify("Please verify your email for login");
         } else {
           Navigate("/bachal/home");
+          dispatch(userData(user.user));
         }
         console.log(user);
       })
