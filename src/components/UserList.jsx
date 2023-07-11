@@ -61,7 +61,7 @@ const UserList = () => {
       <h3>User List</h3>
 
       {userList.map((item) => (
-        <div className="list">
+        <div className="list" key={item.id}>
           <div className="img">
             <img src={profile} className="pic" />
           </div>
