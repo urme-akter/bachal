@@ -23,6 +23,7 @@ const Home = () => {
   let handleLogOut = () => {
     signOut(auth)
       .then(() => {
+        localStorage.removeItem("user");
         navigate("/login");
       })
       .catch((error) => {

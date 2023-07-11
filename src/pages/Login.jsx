@@ -80,7 +80,8 @@ const Login = () => {
           notify("Please verify your email for login");
         } else {
           Navigate("/bachal/home");
-          dispatch(userData(user.user));
+          localStorage.setItem("user", JSON.stringify(user.user)),
+            dispatch(userData(user.user));
         }
         console.log(user);
       })
