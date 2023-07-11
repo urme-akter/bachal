@@ -23,7 +23,7 @@ const RootLayout = () => {
           <div className="navber">
             <div className="navcontainer">
               <img className="profilePic" src={profile} />
-              <h3 className="username">{userData.displayName}</h3>
+              <h3 className="userName">{userData.displayName}</h3>
               <ul>
                 <li>
                   <Link

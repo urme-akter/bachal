@@ -208,9 +208,8 @@ ol {
   height: 70px;
   border-radius: 50%;
 }
-.username {
+.userName {
   color: whitesmoke;
   margin-top: 15px;
-  font-weight: bold;
-  font-size: large;
+  font-size: 25px;
 }
