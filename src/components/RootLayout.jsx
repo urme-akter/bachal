@@ -10,10 +10,12 @@ import {
 } from "react-icons/ai";
 import { BiLogOut } from "react-icons/bi";
 import { Link, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const RootLayout = () => {
   const Location = useLocation();
-  console.log(Location.pathname);
+  // console.log(Location.pathname);
+  let userData = useSelector((state) => state.loggedUser.loginUser);
   return (
     <>
       <Grid container spacing={2}>
@@ -21,6 +23,7 @@ const RootLayout = () => {
           <div className="navber">
             <div className="navcontainer">
               <img className="profilePic" src={profile} />
+              <h3 className="username">{userData.displayName}</h3>
               <ul>
                 <li>
                   <Link
