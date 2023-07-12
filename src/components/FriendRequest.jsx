@@ -1,7 +1,14 @@
 import { useEffect, useState } from "react";
 import profile from "../assets/profile.png";
 import { Button } from "@mui/material";
-import { getDatabase, ref, onValue } from "firebase/database";
+import {
+  getDatabase,
+  ref,
+  onValue,
+  remove,
+  set,
+  push,
+} from "firebase/database";
 import { useSelector } from "react-redux";
 
 const FriendRequest = () => {
@@ -15,12 +22,24 @@ const FriendRequest = () => {
       let arr = [];
       snapshot.forEach((item) => {
         if (item.val().whoreceiveid == userData.uid) {
-          arr.push(item.val());
+          arr.push({ ...item.val(), id: item.key });
         }
       });
       setReqList(arr);
     });
   }, []);
+
+  let handleReject = (id) => {
+    remove(ref(db, "friendrequest/" + id));
+  };
+
+  let handleAccept = (item) => {
+    set(push(ref(db, "friends/")), {
+      ...item,
+    }).then(() => {
+      remove(ref(db, "friendrequest/" + item.id));
+    });
+  };
 
   return (
     <div className="groupBox ">
@@ -32,10 +51,24 @@ const FriendRequest = () => {
           </div>
           <div className="details">
             <h4 className="">{item.whosendname}</h4>
-            <p>Hi Guys, Wassup!</p>
+            <p>Hi, Wassup!</p>
           </div>
           <div className="button">
-            <Button variant="contained">Join</Button>
+            <Button
+              onClick={() => handleAccept(item)}
+              size="small"
+              variant="contained"
+            >
+              Accept
+            </Button>
+            <Button
+              onClick={() => handleReject(item.id)}
+              size="small"
+              color="error"
+              variant="contained"
+            >
+              Reject
+            </Button>
           </div>
         </div>
       ))}
