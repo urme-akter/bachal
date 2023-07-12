@@ -10,12 +10,14 @@ import {
   remove,
 } from "firebase/database";
 import { getAuth } from "firebase/auth";
+import { useSelector } from "react-redux";
 
 const UserList = () => {
   const db = getDatabase();
   const auth = getAuth();
   let [userList, setUserList] = useState([]);
   let [friendRequest, setfriendRequest] = useState([]);
+  let userData = useSelector((state) => state.loggedUser.loginUser);
 
   useEffect(() => {
     const usersRef = ref(db, "friendrequest/");
@@ -34,7 +36,9 @@ const UserList = () => {
       let arr = [];
       // const data = snapshot.val();
       snapshot.forEach((item) => {
-        arr.push({ ...item.val(), id: item.key });
+        if (userData.uid != item.key) {
+          arr.push({ ...item.val(), id: item.key });
+        }
       });
       setUserList(arr);
     });
@@ -43,7 +47,7 @@ const UserList = () => {
   let handleFriendRequest = (item) => {
     // console.log("who send", auth.currentUser.uid);
     // console.log("who send", item.id);
-    set(push(ref(db, "friendrequest/")), {
+    set(ref(db, "friendrequest/" + item.id), {
       whosendid: auth.currentUser.uid,
       whosendname: auth.currentUser.displayName,
       whoreceiveid: item.id,
@@ -53,7 +57,7 @@ const UserList = () => {
 
   let handleCancel = (item) => {
     console.log(item.id);
-    // remove()
+    remove(ref(db, "friendrequest/" + item.id));
   };
 
   return (
@@ -73,6 +77,13 @@ const UserList = () => {
             {friendRequest.includes(item.id + auth.currentUser.uid) ? (
               <Button onClick={() => handleCancel(item)} variant="contained">
                 cancel
+              </Button>
+            ) : friendRequest.includes(auth.currentUser.uid + item.id) ? (
+              <Button
+                // onClick={() => handleFriendRequest(item)}
+                variant="contained"
+              >
+                Pending
               </Button>
             ) : (
               <Button
