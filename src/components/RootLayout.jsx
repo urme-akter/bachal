@@ -11,9 +11,25 @@ import {
 import { BiLogOut } from "react-icons/bi";
 import { Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { getAuth, signOut } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 const RootLayout = () => {
   const Location = useLocation();
+  const auth = getAuth();
+  let navigate = useNavigate();
+
+  let handleLogOut = () => {
+    signOut(auth)
+      .then(() => {
+        localStorage.removeItem("user");
+        navigate("/login");
+      })
+      .catch((error) => {
+        // An error happened.
+      });
+  };
+
   // console.log(Location.pathname);
   let userData = useSelector((state) => state.loggedUser.loginUser);
   return (
@@ -52,7 +68,14 @@ const RootLayout = () => {
                   <AiOutlineSetting className="icon" />
                 </li>
                 <li>
-                  <BiLogOut className="icon" />
+                  <Link
+                    className={
+                      Location.pathname == "/bachal/logout" ? "active" : "icon"
+                    }
+                    to="/bachal/logout"
+                  >
+                    <BiLogOut className="icon" onClick={handleLogOut} />
+                  </Link>
                 </li>
               </ul>
             </div>

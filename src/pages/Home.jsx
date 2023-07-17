@@ -20,16 +20,16 @@ const Home = () => {
   });
   const auth = getAuth();
   let navigate = useNavigate();
-  let handleLogOut = () => {
-    signOut(auth)
-      .then(() => {
-        localStorage.removeItem("user");
-        navigate("/login");
-      })
-      .catch((error) => {
-        // An error happened.
-      });
-  };
+  // let handleLogOut = () => {
+  //   signOut(auth)
+  //     .then(() => {
+  //       localStorage.removeItem("user");
+  //       navigate("/login");
+  //     })
+  //     .catch((error) => {
+  //       // An error happened.
+  //     });
+  // };
 
   return (
     <>
@@ -48,9 +48,9 @@ const Home = () => {
         </Grid>
       </Grid>
 
-      <Button onClick={handleLogOut} variant="contained">
+      {/* <Button onClick={handleLogOut} variant="contained">
         Log out
-      </Button>
+      </Button> */}
     </>
   );
 };
