@@ -213,3 +213,6 @@ ol {
   margin-top: 15px;
   font-size: 25px;
 }
+.groupBox .frnd-list {
+  column-gap: 33px;
+}

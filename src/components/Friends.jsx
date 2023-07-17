@@ -1,7 +1,14 @@
 import { useEffect, useState } from "react";
 import profile from "../assets/profile.png";
 import { Button } from "@mui/material";
-import { getDatabase, ref, onValue } from "firebase/database";
+import {
+  getDatabase,
+  ref,
+  onValue,
+  remove,
+  set,
+  push,
+} from "firebase/database";
 import { useSelector } from "react-redux";
 
 const Friends = () => {
@@ -27,11 +34,40 @@ const Friends = () => {
     });
   }, []);
 
+  let handleUnfriend = (item) => {
+    remove(ref(db, "friends/" + item.id));
+  };
+
+  let handleBlock = (item) => {
+    // console.log(userData.uid == item.whosendid);
+    // console.log(userData.uid == item.whoreceiveid);
+
+    if (userData.uid == item.whosendid) {
+      set(push(ref(db, "block/")), {
+        blockedid: item.whoreceiveid,
+        blockname: item.whoreceivename,
+        blockbyid: item.whosendid,
+        blockbyname: item.whosendname,
+      }).then(() => {
+        remove(ref(db, "friends/" + item.id));
+      });
+    } else {
+      set(push(ref(db, "block/")), {
+        blockedid: item.whosendid,
+        blockedname: item.whosendname,
+        blockbyid: item.whoreceiveid,
+        blockbyname: item.whoreceivename,
+      }).then(() => {
+        remove(ref(db, "friends/" + item.id));
+      });
+    }
+  };
+
   return (
-    <div className="groupBox">
+    <div className="groupBox groupBox-frnd">
       <h3>Friends</h3>
       {friends.map((item) => (
-        <div className="list" key={item.id}>
+        <div className="list frnd-list" key={item.id}>
           <div className="img">
             <img src={profile} className="pic" alt="Profile" />
           </div>
@@ -44,10 +80,23 @@ const Friends = () => {
             <p>Hi Guys, Wassup!</p>
           </div>
           <div className="button">
-            {/* <Button size="small" variant="contained">
+            <Button
+              onClick={() => {
+                handleUnfriend(item);
+              }}
+              size="small"
+              variant="contained"
+            >
               Unfriend
-            </Button> */}
-            <Button size="small" variant="contained">
+            </Button>
+            <Button
+              onClick={() => {
+                handleBlock(item);
+              }}
+              size="small"
+              variant="contained"
+              color="error"
+            >
               Block
             </Button>
           </div>
