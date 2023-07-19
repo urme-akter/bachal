@@ -19,6 +19,7 @@ const UserList = () => {
   let [friendRequest, setFriendRequest] = useState([]);
   let userData = useSelector((state) => state.loggedUser.loginUser);
   let [friends, setFriends] = useState([]);
+  let [block, setBlock] = useState([]);
 
   useEffect(() => {
     const usersRef = ref(db, "friendrequest/");
@@ -39,6 +40,17 @@ const UserList = () => {
         arr.push(item.val().whoreceiveid + item.val().whosendid);
       });
       setFriends(arr);
+    });
+  }, []);
+
+  useEffect(() => {
+    const usersRef = ref(db, "block/");
+    onValue(usersRef, (snapshot) => {
+      let arr = [];
+      snapshot.forEach((item) => {
+        arr.push(item.val().blockedid + item.val().blockbyid);
+      });
+      setBlock(arr);
     });
   }, []);
 
@@ -105,6 +117,15 @@ const UserList = () => {
                 color="success"
               >
                 Friends
+              </Button>
+            ) : block.includes(auth.currentUser.uid + item.id) ||
+              block.includes(item.id + auth.currentUser.uid) ? (
+              <Button
+                // onClick={() => handleFriendRequest(item)}
+                variant="contained"
+                color="error"
+              >
+                block
               </Button>
             ) : (
               <Button
