@@ -8,6 +8,7 @@ const BlockedUser = () => {
   const db = getDatabase();
   let [blockList, setBlockList] = useState([]);
   const userData = useSelector((state) => state.loggedUser.loginUser);
+
   useEffect(() => {
     const blockRef = ref(db, "block");
     onValue(blockRef, (snapshot) => {
