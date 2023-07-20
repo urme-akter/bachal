@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import profile from "../assets/profile.png";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -33,6 +33,8 @@ const Group = () => {
   const db = getDatabase();
   let [groupInfo, setGroupInfo] = useState(groupData);
 
+  let [group, setGroup] = useState([]);
+
   let handleChange = (e) => {
     setGroupInfo({
       ...groupInfo,
@@ -50,6 +52,19 @@ const Group = () => {
       setOpen(false);
     });
   };
+
+  useEffect(() => {
+    const groupsRef = ref(db, "groups/");
+    onValue(groupsRef, (snapshot) => {
+      let arr = [];
+      snapshot.forEach((item) => {
+        if (userData.uid !== item.val().adminId) {
+          arr.push({ ...item.val(), id: item.key });
+        }
+      });
+      setGroup(arr);
+    });
+  }, []);
 
   return (
     <div className="groupBox">
@@ -94,42 +109,20 @@ const Group = () => {
           </Box>
         </Modal>
       </h3>
-      <div className="list">
-        <div className="img">
-          <img src={profile} className="pic" />
+      {group.map((item) => (
+        <div className="list">
+          <div className="img">
+            <img src={profile} className="pic" />
+          </div>
+          <div className="details">
+            <h4 className="">{item.groupname}</h4>
+            <p>{item.grouptagline}</p>
+          </div>
+          <div className="button">
+            <Button variant="contained">Join</Button>
+          </div>
         </div>
-        <div className="details">
-          <h4 className="">Friends Reunion</h4>
-          <p>Hi Guys, Wassup!</p>
-        </div>
-        <div className="button">
-          <Button variant="contained">Join</Button>
-        </div>
-      </div>
-      <div className="list">
-        <div className="img">
-          <img src={profile} className="pic" />
-        </div>
-        <div className="details">
-          <h4 className="">Friends Reunion</h4>
-          <p>Hi Guys, Wassup!</p>
-        </div>
-        <div className="button">
-          <Button variant="contained">Join</Button>
-        </div>
-      </div>
-      <div className="list">
-        <div className="img">
-          <img src={profile} className="pic" />
-        </div>
-        <div className="details">
-          <h4 className="">Friends Reunion</h4>
-          <p>Hi Guys, Wassup!</p>
-        </div>
-        <div className="button">
-          <Button variant="contained">Join</Button>
-        </div>
-      </div>
+      ))}
     </div>
   );
 };

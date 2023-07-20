@@ -21,12 +21,13 @@ const Friends = () => {
     onValue(friendsRef, (snapshot) => {
       const arr = [];
       snapshot.forEach((item) => {
-        const friendData = item.val();
+        // const friendData = item.val();
+        // console.log(item.val());
         if (
-          friendData.whosendid === userData.uid ||
-          friendData.whoreceiveid === userData.uid
+          item.val().whosendid === userData.uid ||
+          item.val().whoreceiveid === userData.uid
         ) {
-          arr.push({ ...friendData, id: item.key });
+          arr.push({ ...item.val(), id: item.key });
         }
       });
 
