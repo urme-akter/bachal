@@ -82,6 +82,7 @@ const Login = () => {
           Navigate("/bachal/home");
           localStorage.setItem("user", JSON.stringify(user.user)),
             dispatch(userData(user.user));
+          notify("User Login");
         }
         console.log(user);
       })

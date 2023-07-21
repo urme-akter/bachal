@@ -28,34 +28,48 @@ const BlockedUser = () => {
   return (
     <div className="groupBox">
       <h3>Block User</h3>
-      {blockList.map((item) => (
-        <div className="list" key={item.id}>
-          <div className="img">
-            <img src={profile} className="pic" />
-          </div>
-          <div className="details">
-            {item.blockbyid == userData.uid ? (
-              <h4 className="">{item.blockedname}</h4>
-            ) : (
-              <h4 className="">{item.blockbyname}</h4>
-            )}
+      {blockList.length > 0 ? (
+        blockList.map((item) => (
+          <div className="list" key={item.id}>
+            <div className="img">
+              <img src={profile} className="pic" />
+            </div>
+            <div className="details">
+              {item.blockbyid == userData.uid ? (
+                <h4 className="">{item.blockname || item.blockedname}</h4>
+              ) : (
+                <h4 className="">{item.blockbyname}</h4>
+              )}
 
-            <p>Hi Guys, Wassup!</p>
+              <p>Hi Guys, Wassup!</p>
+            </div>
+            <div className="button">
+              {item.blockbyid == userData.uid && (
+                <Button
+                  onClick={() => {
+                    handleUnblock(item);
+                  }}
+                  variant="contained"
+                >
+                  Unblock
+                </Button>
+              )}
+            </div>
           </div>
-          <div className="button">
-            {item.blockbyid == userData.uid && (
-              <Button
-                onClick={() => {
-                  handleUnblock(item);
-                }}
-                variant="contained"
-              >
-                Unblock
-              </Button>
-            )}
-          </div>
-        </div>
-      ))}
+        ))
+      ) : (
+        <h2
+          style={{
+            color: "red",
+            marginTop: "72px",
+            marginLeft: "98px",
+            opacity: ".3",
+            fontSize: "30px",
+          }}
+        >
+          No One is Blocked
+        </h2>
+      )}
     </div>
   );
 };

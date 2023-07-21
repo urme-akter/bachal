@@ -67,42 +67,56 @@ const Friends = () => {
   return (
     <div className="groupBox groupBox-frnd">
       <h3>Friends</h3>
-      {friends.map((item) => (
-        <div className="list frnd-list" key={item.id}>
-          <div className="img">
-            <img src={profile} className="pic" alt="Profile" />
+      {friends.length > 0 ? (
+        friends.map((item) => (
+          <div className="list frnd-list" key={item.id}>
+            <div className="img">
+              <img src={profile} className="pic" alt="Profile" />
+            </div>
+            <div className="details">
+              {item.whoreceiveid == userData.uid ? (
+                <h4 className="">{item.whosendname}</h4>
+              ) : (
+                <h4 className="">{item.whoreceivename}</h4>
+              )}
+              <p>Hi Guys, Wassup!</p>
+            </div>
+            <div className="button">
+              <Button
+                onClick={() => {
+                  handleUnfriend(item);
+                }}
+                size="small"
+                variant="contained"
+              >
+                Unfriend
+              </Button>
+              <Button
+                onClick={() => {
+                  handleBlock(item);
+                }}
+                size="small"
+                variant="contained"
+                color="error"
+              >
+                Block
+              </Button>
+            </div>
           </div>
-          <div className="details">
-            {item.whoreceiveid == userData.uid ? (
-              <h4 className="">{item.whosendname}</h4>
-            ) : (
-              <h4 className="">{item.whoreceivename}</h4>
-            )}
-            <p>Hi Guys, Wassup!</p>
-          </div>
-          <div className="button">
-            <Button
-              onClick={() => {
-                handleUnfriend(item);
-              }}
-              size="small"
-              variant="contained"
-            >
-              Unfriend
-            </Button>
-            <Button
-              onClick={() => {
-                handleBlock(item);
-              }}
-              size="small"
-              variant="contained"
-              color="error"
-            >
-              Block
-            </Button>
-          </div>
-        </div>
-      ))}
+        ))
+      ) : (
+        <h2
+          style={{
+            color: "Black",
+            marginTop: "72px",
+            marginLeft: "77px",
+            opacity: ".3",
+            fontSize: "30px",
+          }}
+        >
+          Make Some Friends
+        </h2>
+      )}
     </div>
   );
 };

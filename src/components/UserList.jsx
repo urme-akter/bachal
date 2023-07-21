@@ -11,6 +11,7 @@ import {
 } from "firebase/database";
 import { getAuth } from "firebase/auth";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 const UserList = () => {
   const db = getDatabase();
@@ -20,6 +21,7 @@ const UserList = () => {
   let userData = useSelector((state) => state.loggedUser.loginUser);
   let [friends, setFriends] = useState([]);
   let [block, setBlock] = useState([]);
+  const notify = (msg) => toast(msg);
 
   useEffect(() => {
     const usersRef = ref(db, "friendrequest/");
@@ -76,7 +78,7 @@ const UserList = () => {
       whosendname: auth.currentUser.displayName,
       whoreceiveid: item.id,
       whoreceivename: item.username,
-    });
+    }).then(notify("Send Friend Request"));
   };
 
   let handleCancel = (item) => {
@@ -103,28 +105,15 @@ const UserList = () => {
                 cancel
               </Button>
             ) : friendRequest.includes(auth.currentUser.uid + item.id) ? (
-              <Button
-                // onClick={() => handleFriendRequest(item)}
-                variant="contained"
-              >
-                Pending
-              </Button>
+              <Button variant="contained">Pending</Button>
             ) : friends.includes(auth.currentUser.uid + item.id) ||
               friends.includes(item.id + auth.currentUser.uid) ? (
-              <Button
-                // onClick={() => handleFriendRequest(item)}
-                variant="contained"
-                color="success"
-              >
+              <Button variant="contained" color="success">
                 Friends
               </Button>
             ) : block.includes(auth.currentUser.uid + item.id) ||
               block.includes(item.id + auth.currentUser.uid) ? (
-              <Button
-                // onClick={() => handleFriendRequest(item)}
-                variant="contained"
-                color="error"
-              >
+              <Button variant="contained" color="error">
                 block
               </Button>
             ) : (
@@ -132,7 +121,7 @@ const UserList = () => {
                 onClick={() => handleFriendRequest(item)}
                 variant="contained"
               >
-                +
+                add
               </Button>
             )}
           </div>

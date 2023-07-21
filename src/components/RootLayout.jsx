@@ -13,17 +13,20 @@ import { Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getAuth, signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const RootLayout = () => {
   const Location = useLocation();
   const auth = getAuth();
   let navigate = useNavigate();
+  const notify = (msg) => toast(msg);
 
   let handleLogOut = () => {
     signOut(auth)
       .then(() => {
         localStorage.removeItem("user");
         navigate("/login");
+        notify("User Log out");
       })
       .catch((error) => {
         // An error happened.
